@@ -1,7 +1,5 @@
-from ssh_python.shell import run
 from sys import argv
-
-# python3 shell.py [ip address] [username] [password/path to key file] [workdir on pc (files to copy)]
+from ssh_python.shell import run
 
 def main():
     ip = argv[1]

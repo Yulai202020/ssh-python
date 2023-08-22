@@ -1,6 +1,10 @@
-from ssh_python.ssh_methods import *
 from os.path import isfile
+from ssh_python.ssh_methods import *
 from ssh_python.conn import connection
+
+# init
+command = [""]
+workdir_vm = "/"
 
 def check_key_dir(dir: str, n: int):
     if dir[n] == "/":
@@ -9,17 +13,13 @@ def check_key_dir(dir: str, n: int):
         return False
 
 def run(ip: str, user: str, password: str, workdir: str):
-
-    # init
-    command = [""]
-    workdir_vm = "/"
+    # check dir
     workdir_copy = workdir
-
     if not check_key_dir(workdir_copy, -1):
         workdir_copy = workdir_copy + "/"
 
+    # ssh connections
     conn = connection(ip = ip, user = user, password = password)
-
     ssh = get_ssh_client(conn = conn)
 
     # shell 
