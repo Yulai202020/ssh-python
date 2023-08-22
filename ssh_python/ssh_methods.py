@@ -19,10 +19,9 @@ def get_ssh_client(conn: connection) -> SSHClient:
 
     return client
 
-def check_file_exits(path: str, conn: connection):
-    client = get_ssh_client(conn=conn)
+def check_file_exits(path: str, ssh: SSHClient):
     try:
-        sftp = client.open_sftp()
+        sftp = ssh.open_sftp()
         sftp.stat(path)
     except:
         return False
@@ -30,13 +29,10 @@ def check_file_exits(path: str, conn: connection):
         return True
     finally:
         sftp.close()
-        client.close()
-
 
 ### Run commands on vm/server
 
-def run_command(command: str, conn: connection) -> dict:
-    ssh = get_ssh_client(conn = conn)
+def run_command(command: str, ssh: SSHClient) -> dict:
 
     stdin, stdout, stderr = ssh.exec_command(command)
 
@@ -49,63 +45,53 @@ def run_command(command: str, conn: connection) -> dict:
         err = err + line + "\n"
     
     stdin.close()
-    ssh.close()
-
+    
     return {"stdout": out, "stderr": err}
 
 ### Operations with files
 
-def copy(path_to_file: str, path_to_copy: str, conn: connection) -> str:
-    client = get_ssh_client(conn = conn)
-
-    sftp = client.open_sftp()
+def copy(path_to_file: str, path_to_copy: str, ssh: SSHClient) -> str:
+    sftp = ssh.open_sftp()
     sftp.put(path_to_file, path_to_copy)
-
     sftp.close()
-    client.close()
 
     return "OK"
 
-def rm_file(path_to_file: str, conn: connection) -> str:
-    ssh = get_ssh_client(conn = conn)
+def rm_file(path_to_file: str, ssh: SSHClient) -> str:
     sftp = ssh.open_sftp()
-
     sftp.remove(path_to_file)
-
     sftp.close()
-    ssh.close()
 
     return "OK"
 
 ### Operations with dirs
 
-def ls_dir(path: str, conn: connection) -> list:
-    ssh = get_ssh_client(conn = conn)
+def ls_dir(path: str, ssh: SSHClient) -> list:
     sftp = ssh.open_sftp()
-
     list_dirs = sftp.listdir(path)
-
     sftp.close()
-    ssh.close()
 
     return list_dirs
 
 # dev
 
-def run_init_file(path_init_file: str, conn: connection):
+def run_init_file(path_init_file: str, ssh: SSHClient):
     # name of file
     name = os.path.splitext(path_init_file)[0]
 
     # copy file
-    copy(path_to_file = path_init_file, path_to_copy = f"/{name}.sh", conn = conn)
+    copy(path_to_file = path_init_file, path_to_copy = f"/{name}.sh", ssh = ssh)
     
     # chmod copied file
-    run_command(f"chmod +x {name}.sh", conn = conn)
+    run_command(f"chmod +x {name}.sh", ssh = ssh)
 
     # run file and save logs
-    logs = run_command(f"./{name}.sh", conn = conn)
+    logs = run_command(f"./{name}.sh", ssh = ssh)
 
     # delete file
-    rm_file(f"/{name}.sh", conn = conn)
+    rm_file(f"/{name}.sh", ssh = ssh)
 
     return logs
+
+def close(ssh: SSHClient):
+    ssh.close()
