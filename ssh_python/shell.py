@@ -22,7 +22,7 @@ def run(ip: str, user: str, password: str, workdir: str):
     conn = connection(ip = ip, user = user, password = password)
     ssh = get_ssh_client(conn = conn)
 
-    ### shell 
+    ### shell
     while True:
         try:
             command = input(f"{conn.user}@{conn.ip}:{workdir_vm}$ ").lower().split(" ")
@@ -87,6 +87,7 @@ def run(ip: str, user: str, password: str, workdir: str):
             else:
                 print("File not founded.")
 
+        ### help
         elif command[0] == "help":
             print("ls     // view files in dir")
             print("pwd    // view path")
