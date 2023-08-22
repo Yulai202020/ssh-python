@@ -1,5 +1,5 @@
 [project]
-name = "ssh_client"
+name = "shell_ssh_client"
 version = "0.0.1"
 description = "ssh shell demo on python"
 readme = "README.md"

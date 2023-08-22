@@ -87,6 +87,15 @@ def run(ip: str, user: str, password: str, workdir: str):
             else:
                 print("File not founded.")
 
+        elif command[0] == "help":
+            print("ls     // view files in dir")
+            print("pwd    // view path")
+            print("cd     // change dir")
+            print("help   // get help")
+            print("exit   // exit form shell")
+            print("rmf [file to delete] ")
+            print("copy [file from copy] [file to copy]")
+
         ### Else run command
         else:
             sout = run_command(command = " ".join(command), ssh = ssh)
