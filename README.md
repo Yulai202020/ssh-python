@@ -1,4 +1,4 @@
-### shell, ssh client
+### ssh client
 - install:
 
 pip3 install ssh_client
