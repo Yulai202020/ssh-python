@@ -1,0 +1,22 @@
+[project]
+name = "ssh_client"
+version = "0.0.10"
+description = "Just a demo project"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["ssh", "project"]
+dependencies = [
+    "paramiko",
+]
+
+[project.urls]
+Homepage = "https://github.com/Yulai202020/ssh-python"
+Documentation = "https://github.com/Yulai202020/ssh-python"
+Changes = "https://github.com/Yulai202020/ssh-python"
+
+[project.scripts]
+ssh_client = "ssh_python.__main__:main"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
