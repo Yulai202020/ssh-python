@@ -1,7 +1,7 @@
 ### ssh client
 - install:
 
-pip3 install ssh_client
+pip3 install shell_ssh_client
 
 - run shell:
 
